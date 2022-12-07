@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  book-be:
+    image: book-be:local
+    ports:
+      - 8080:8080
+    environment:
+      - FASTIFY_PORT=8080
+    networks:
+      - compose-network
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    ports:
+      - 5432:5432
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_POSTGRES_PASSWORD=123456
+      - POSTGRESQL_DATABASE=nodejs-fastify
+    volumes:
+      - postgresql_data:/bitnami/postgresql
+    networks:
+      - compose-network
+
+volumes:
+  zookeeper_data:
+    driver: local
+  postgresql_data:
+    driver: local
+
+networks:
+  compose-network:
